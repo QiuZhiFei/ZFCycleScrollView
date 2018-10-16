@@ -23,6 +23,10 @@ public class ZFCycleScrollView: UIView, UICollectionViewDataSource, UICollection
   
   public var displayItemHandler: ((_ cell: ZFCycleScrollViewCell, _ index: Int) -> ())?
   public var didSelectItemHandler: ((_ index: Int) -> ())?
+  public var currentIndex: Int {
+    return self.curIndex
+  }
+  public var currentIndexChangedHandler: ((_ index: Int) -> ())?
   
   public fileprivate(set) var endType: ZFCycleScrollViewEndType = .center
   
@@ -106,6 +110,13 @@ public extension ZFCycleScrollView {
   }
   
   func configure(items: [String]) {
+    self.items = items
+    if self.items.count == 0 {
+      self.itemsCount = 0
+    } else {
+      self.itemsCount = max(self.items.count, minNumberOfItems)
+    }
+    
     var startIndex = 0
     switch endType {
     case .center:
@@ -162,12 +173,6 @@ fileprivate extension ZFCycleScrollView {
   }
   
   func configure(items: [String], startIndex: Int) {
-    self.items = items
-    if self.items.count == 0 {
-      self.itemsCount = 0
-    } else {
-      self.itemsCount = max(self.items.count, minNumberOfItems)
-    }
     self.startIndex = startIndex
     
     self.contentView.reloadData()
@@ -222,6 +227,10 @@ fileprivate extension ZFCycleScrollView {
     
     self.contentView.reloadData()
     self.resetContentView()
+    
+    if let handler = self.currentIndexChangedHandler {
+      handler(self.currentIndex)
+    }
   }
   
   func resetContentView() {
