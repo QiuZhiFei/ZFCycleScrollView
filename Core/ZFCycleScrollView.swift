@@ -26,7 +26,7 @@ public class ZFCycleScrollView: UIView, UICollectionViewDataSource, UICollection
   public var currentIndex: Int {
     return self.curIndex
   }
-  public var currentIndexChangedHandler: ((_ index: Int) -> ())?
+  public var currentIndexChangedHandler: ((_ oldIndex: Int, _ index: Int) -> ())?
   
   public fileprivate(set) var endType: ZFCycleScrollViewEndType = .center
   
@@ -203,6 +203,8 @@ fileprivate extension ZFCycleScrollView {
   }
   
   @objc func scrollingEnded() {
+    let oldIndex = self.curIndex
+    
     let point = CGPoint(x: self.bounds.midX, y: self.bounds.midY)
     let center = self.convert(point, to: self.contentView)
     guard let indexPath = self.contentView.indexPathForItem(at: center) else {
@@ -229,7 +231,7 @@ fileprivate extension ZFCycleScrollView {
     self.resetContentView()
     
     if let handler = self.currentIndexChangedHandler {
-      handler(self.currentIndex)
+      handler(oldIndex, self.currentIndex)
     }
   }
   

@@ -47,9 +47,9 @@ class ViewController: UIViewController {
       debugPrint("did select \(index)")
     }
     cy.currentIndexChangedHandler = {
-      [weak self] (index) in
+      [weak self] (oldIndex, index) in
       guard let `self` = self else { return }
-      debugPrint("scroll to \(index)")
+      debugPrint("\(oldIndex) scroll to \(index)")
     }
   }
   
