@@ -140,7 +140,7 @@ fileprivate extension ZFCycleScrollView {
     
     self.addSubview(contentView)
     contentView.autoPinEdgesToSuperviewEdges(with: .zero)
-    contentView.backgroundColor = .yellow
+    contentView.backgroundColor = .clear
     
     // 滚动到中间位置
     self.kvoController
