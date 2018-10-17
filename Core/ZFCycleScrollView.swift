@@ -116,9 +116,9 @@ public extension ZFCycleScrollView {
     } else {
       self.datasCount = datasCount
       if datasCount < numberOfItems {
-        self.itemsCount = numberOfItems
-      } else {
         self.itemsCount = datasCount
+      } else {
+        self.itemsCount = numberOfItems
       }
     }
     

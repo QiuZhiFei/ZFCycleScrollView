@@ -11,7 +11,7 @@ import ZFCycleScrollView
 
 class ViewController: UIViewController {
   
-  fileprivate let datasCount = 3
+  fileprivate let datasCount = 2
   
   fileprivate let cy = ZFCycleScrollView(frame: CGRect(x: 20, y: 100, width: 280, height: 200))
   
@@ -27,7 +27,7 @@ class ViewController: UIViewController {
     cy.displayItemHandler = {
       [weak self] (cell, index) in
       guard let `self` = self else { return }
-      debugPrint("display index == \(index)")
+      debugPrint("display index == \(index), cur == \(self.cy.currentIndex)")
       if cell.itemView == nil {
         let itemView = ZFCycleScrollItemView(frame: .zero)
         cell.itemView = itemView
