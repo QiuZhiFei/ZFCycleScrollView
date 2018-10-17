@@ -27,6 +27,7 @@ class ViewController: UIViewController {
     cy.displayItemHandler = {
       [weak self] (cell, index) in
       guard let `self` = self else { return }
+      debugPrint("display index == \(index)")
       if cell.itemView == nil {
         let itemView = ZFCycleScrollItemView(frame: .zero)
         cell.itemView = itemView
