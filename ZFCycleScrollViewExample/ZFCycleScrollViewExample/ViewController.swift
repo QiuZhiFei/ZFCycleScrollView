@@ -10,14 +10,6 @@ import UIKit
 import ZFCycleScrollView
 
 class ViewController: UIViewController {
-
-
-//      let items = ["0", "1", "2"]
-  //    let items: [String] = ["0", "1"]
-//      let items: [String] = []
-//  fileprivate let items: [String] = ["0"]
-//  fileprivate let items: [String] = ["0", "1"]
-//    fileprivate let items = ["1", "2", "3", "4"]
   
   fileprivate let datasCount = 3
   
