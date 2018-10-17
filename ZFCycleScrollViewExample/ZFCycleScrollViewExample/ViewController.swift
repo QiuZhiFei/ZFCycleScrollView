@@ -11,11 +11,16 @@ import ZFCycleScrollView
 
 class ViewController: UIViewController {
 
-  //    let items = ["1", "2", "3", "4"]
-  //    let items = ["0", "1", "2"]
+
+//      let items = ["0", "1", "2"]
   //    let items: [String] = ["0", "1"]
-  //    let items: [String] = []
-  fileprivate let items: [String] = ["0", "1"]
+//      let items: [String] = []
+//  fileprivate let items: [String] = ["0"]
+//  fileprivate let items: [String] = ["0", "1"]
+//    fileprivate let items = ["1", "2", "3", "4"]
+  
+  fileprivate let datasCount = 3
+  
   fileprivate let cy = ZFCycleScrollView(frame: CGRect(x: 20, y: 100, width: 280, height: 200))
   
   override func viewDidLoad() {
@@ -25,7 +30,7 @@ class ViewController: UIViewController {
     cy.layer.borderWidth = 1
     
     self.view.addSubview(cy)
-    cy.configure(items: items)
+    cy.configure(datasCount: datasCount)
     
     cy.displayItemHandler = {
       [weak self] (cell, index) in
@@ -62,7 +67,7 @@ class ViewController: UIViewController {
       cy.configure(endType: .center)
     }
     
-    cy.configure(items: items)
+    cy.configure(datasCount: datasCount)
   }
 
 }

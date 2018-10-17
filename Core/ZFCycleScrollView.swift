@@ -11,7 +11,7 @@ import UIKit
 import PureLayout
 import KVOController
 
-fileprivate let minNumberOfItems: Int = 3
+fileprivate let numberOfItems: Int = 3
 fileprivate let ZFCycleScrollViewCellID = "ZFCycleScrollViewCellID"
 
 public enum ZFCycleScrollViewEndType {
@@ -30,8 +30,8 @@ public class ZFCycleScrollView: UIView, UICollectionViewDataSource, UICollection
   
   public fileprivate(set) var endType: ZFCycleScrollViewEndType = .center
   
-  fileprivate var items: [String] = []
-  fileprivate var itemsCount: Int = 0
+  fileprivate var itemsCount: Int = 0 // item 数量
+  fileprivate var datasCount: Int = 0 // data 数量
   fileprivate var curIndex: Int = 0
   fileprivate var startIndex: Int = 0
   
@@ -109,12 +109,13 @@ public extension ZFCycleScrollView {
     self.endType = endType
   }
   
-  func configure(items: [String]) {
-    self.items = items
-    if self.items.count == 0 {
+  func configure(datasCount: Int) {
+    if datasCount == 0 {
       self.itemsCount = 0
+      self.datasCount = 0
     } else {
-      self.itemsCount = max(self.items.count, minNumberOfItems)
+      self.itemsCount = numberOfItems
+      self.datasCount = datasCount
     }
     
     var startIndex = 0
@@ -124,10 +125,12 @@ public extension ZFCycleScrollView {
     case .left:
       startIndex = 0
     }
+    self.startIndex = startIndex
     
-    self.configure(items: items, startIndex: startIndex)
+    self.contentView.reloadData()
+    self.resetContentView()
   }
-
+  
 }
 
 fileprivate extension ZFCycleScrollView {
@@ -172,31 +175,15 @@ fileprivate extension ZFCycleScrollView {
     }
   }
   
-  func configure(items: [String], startIndex: Int) {
-    self.startIndex = startIndex
-    
-    self.contentView.reloadData()
-    self.resetContentView()
-  }
-  
   func getCurrentIndex(indexPath: IndexPath) -> Int {
-    let row = indexPath.row % max(minNumberOfItems, items.count)
+    let row = indexPath.row
     let index = self.curIndex + row - self.startIndex
     
-    if (self.items.count >= minNumberOfItems) {
-      if index == self.itemsCount {
-        return 0
-      }
-      if index < 0 {
-        return self.itemsCount - 1
-      }
-    } else {
-      if index == self.items.count {
-        return 0
-      }
-      if index < 0 {
-        return self.items.count - 1
-      }
+    if index == self.datasCount {
+      return 0
+    }
+    if index < 0 {
+      return self.datasCount - 1
     }
     
     return index
@@ -211,20 +198,11 @@ fileprivate extension ZFCycleScrollView {
       return
     }
     
-    if (self.items.count >= minNumberOfItems) {
-      if indexPath.row > self.startIndex {
-        self.curIndex = self.curIndex == self.itemsCount - 1 ? 0 : self.curIndex + 1
-      }
-      if indexPath.row < self.startIndex {
-        self.curIndex = self.curIndex == 0 ? self.itemsCount - 1 : self.curIndex - 1
-      }
-    } else {
-      if indexPath.row > self.startIndex {
-        self.curIndex = self.curIndex == self.items.count - 1 ? 0 : self.curIndex + 1
-      }
-      if indexPath.row < self.startIndex {
-        self.curIndex = self.curIndex == 0 ? self.items.count - 1 : self.curIndex - 1
-      }
+    if indexPath.row > self.startIndex {
+      self.curIndex = self.curIndex == self.datasCount - 1 ? 0 : self.curIndex + 1
+    }
+    if indexPath.row < self.startIndex {
+      self.curIndex = self.curIndex == 0 ? self.datasCount - 1 : self.curIndex - 1
     }
     
     self.contentView.reloadData()
